@@ -20,7 +20,7 @@ public class SeleniumLocatorsKeywords {
 	public static Actions actions;
 	
 	// Window Handling Method
-	public static void switchToWindow(WebDriver driver) {
+	public static void switchingWindow(WebDriver driver) {
 		String parent = driver.getWindowHandle();
 		Set<String> allwindows = driver.getWindowHandles();
 		for (String window : allwindows) {
@@ -31,18 +31,18 @@ public class SeleniumLocatorsKeywords {
 	}
 	
 	// Frames Handling Method
-	public static void switchTOFrame(WebDriver driver, WebElement frameelement) {
+	public static void switchingToFrame(WebDriver driver, WebElement frameelement) {
 		driver.switchTo().frame(frameelement);	
 	}
 		
 	// DropDown Handling Method
-	public static void dropDownHande(WebElement element, String value) {
+	public static void dropDownsHandling(WebElement element, String value) {
 		Select s = new Select(element);
 		s.selectByVisibleText(value);
 	}
 	
 	// Alert Handling Method
-	public static void alertHandling(String alertName) {
+	public static void alertsHandling(String alertName) {
 		List<WebElement>ls = driver.findElements(By.cssSelector("input.btn-style"));
 		ls.stream().forEach(p->System.out.println(p.getAttribute("id")));
 		ls.stream().forEach((p)->{
@@ -81,16 +81,16 @@ public class SeleniumLocatorsKeywords {
 		System.out.println("Total Links: " + links.size());
 		
 		WebElement drop = driver.findElement(By.id("dropdown-class-example"));
-		dropDownHande(drop, "Option2");
+		dropDownsHandling(drop, "Option2");
 		
 		// Alert Handling
         //	driver.findElement(By.xpath("//input[@value='Alert']")).click();
         //	Alert a = driver.switchTo().alert();
         //	System.out.println("ALERT: "+a.getText());
         //	a.accept();
-		alertHandling("confirmbtn");
+		alertsHandling("confirmbtn");
 		
-		//JavascriptExecutor to Scroll
+		// JavascriptExecutor to Scroll
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("window.scrollBy(0,900)");
 		
@@ -103,20 +103,20 @@ public class SeleniumLocatorsKeywords {
 			
 		// Switching Frames
 		WebElement element = driver.findElement(By.id("courses-iframe"));
-		switchTOFrame(driver, element);
+		switchingToFrame(driver, element);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@placeholder='Enter your name']"))).sendKeys("VENUGOPAL");
 		driver.switchTo().defaultContent();
 		
 		// Locator CSS Selector
 		driver.findElement(By.cssSelector("#openwindow")).click();
-		switchToWindow(driver);
+		switchingWindow(driver);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='button float-left']"))).click();
 		// actions.sendKeys(Keys.ALT,Keys.F4).build().perform();
 		System.out.println(driver.getWindowHandles().size());
-		switchToWindow(driver); 
+		switchingWindow(driver); 
 		
-		//String parent =switchToWindow(driver);
-		//driver.switchTo().window(parent);
+		// String parent =switchToWindow(driver);
+		// driver.switchTo().window(parent);
 		
 		// Locator LinkText
 		driver.findElement(By.cssSelector("a[href='https://rahulshettyacademy.com/documents-request']")).click();
@@ -130,7 +130,7 @@ public class SeleniumLocatorsKeywords {
 		Thread.sleep(3000);
 		driver.navigate().back();
 				
-		//Navigation Methods
+		// Navigation Methods
 		driver.navigate().refresh();
 		Thread.sleep(3000);
 		driver.navigate().back();
