@@ -58,20 +58,20 @@ public class SeleniumLocatorsKeywords {
 		driver = new ChromeDriver();
 		driver.get("https://rahulshettyacademy.com/AutomationPractice/");
 		driver.manage().window().maximize();
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10000));
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(50000));
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		System.out.println("Title is : "+driver.getTitle());
 		System.out.println("Current URL is : "+driver.getCurrentUrl());
-
+		
 		// Locator Id
 		driver.findElement(By.id("autocomplete")).sendKeys("ind");
-		
-		// Locator Name
-		driver.findElement(By.name("radioButton")).click();
 		
 		// Locator ClassName
 		List<WebElement> menuitems = driver.findElements(By.className("ui-menu-item"));
 		menuitems.stream().filter(a -> a.getText().equalsIgnoreCase("India")).findFirst().orElse(null).click();
+		
+		// Locator Name
+		driver.findElement(By.name("radioButton")).click();
 		
 		// Locator Xpath
 		driver.findElement(By.xpath("//input[@value='option2']")).click();
@@ -100,11 +100,10 @@ public class SeleniumLocatorsKeywords {
 		a1.moveToElement(hover).build().perform();
 		a1.click(driver.findElement(By.cssSelector("a[href='#top']"))).build().perform();
 		
-			
 		// Switching Frames
 		WebElement element = driver.findElement(By.id("courses-iframe"));
 		switchingToFrame(driver, element);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@placeholder='Enter your name']"))).sendKeys("VENUGOPAL");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@placeholder='Enter your name']"))).sendKeys("SaiDheeraj");
 		driver.switchTo().defaultContent();
 		
 		// Locator CSS Selector
