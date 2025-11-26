@@ -20,14 +20,22 @@ public class SeleniumLocatorsKeywords {
 	public static Actions actions;
 	
 	// Window Handling Method
-	public static void switchingWindow(WebDriver driver) {
-		String parent = driver.getWindowHandle();
+	public static String switchingWindow(WebDriver driver, String parentHandle) {
+//		String parent = driver.getWindowHandle();
+//		Set<String> allwindows = driver.getWindowHandles();
+//		for (String window : allwindows) {
+//			if (!window.equals(parent)) {
+//				driver.switchTo().window(window);	
+//			}	
+//		}	
 		Set<String> allwindows = driver.getWindowHandles();
-		for (String window : allwindows) {
-			if (!window.equals(parent)) {
-				driver.switchTo().window(window);	
-			}	
-		}	
+	    for (String window : allwindows) {
+	        if (!window.equals(parentHandle)) {
+	            driver.switchTo().window(window);
+	            return window; // Switched to the child window
+	        }
+	    }
+	    return null;
 	}
 	
 	// Frames Handling Method
@@ -47,9 +55,10 @@ public class SeleniumLocatorsKeywords {
 		ls.stream().forEach(p->System.out.println(p.getAttribute("id")));
 		ls.stream().forEach((p)->{
 			if (p.getAttribute("id").contains(alertName)) {
-				System.out.println("Clicked Succesfully!");
 				p.click();
-				driver.switchTo().alert().accept();
+				Alert alert = driver.switchTo().alert();
+				System.out.println(alert.getText());
+				alert.accept();
 			}
 		});	
 	}
@@ -88,7 +97,7 @@ public class SeleniumLocatorsKeywords {
         //	Alert a = driver.switchTo().alert();
         //	System.out.println("ALERT: "+a.getText());
         //	a.accept();
-		alertsHandling("confirmbtn");
+		alertsHandling("alertbtn");
 		
 		// JavascriptExecutor to Scroll
 		JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -107,12 +116,20 @@ public class SeleniumLocatorsKeywords {
 		driver.switchTo().defaultContent();
 		
 		// Locator CSS Selector
-		driver.findElement(By.cssSelector("#openwindow")).click();
-		switchingWindow(driver);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='button float-left']"))).click();
+//		driver.findElement(By.cssSelector("#openwindow")).click();
+//		switchingWindow(driver);
+//		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='button float-left']"))).click();
 		// actions.sendKeys(Keys.ALT,Keys.F4).build().perform();
-		System.out.println(driver.getWindowHandles().size());
-		switchingWindow(driver); 
+//		System.out.println(driver.getWindowHandles().size());
+//		switchingWindow(driver); 
+		
+		String parentWindowHandle = driver.getWindowHandle();
+		driver.findElement(By.cssSelector("#openwindow")).click();
+		String childWindowHandle = switchingWindow(driver, parentWindowHandle);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='button float-left']"))).click();
+		driver.close();
+		driver.switchTo().window(parentWindowHandle);
+		System.out.println("Size of the Windows: "+driver.getWindowHandles().size());
 		
 		// String parent =switchToWindow(driver);
 		// driver.switchTo().window(parent);
